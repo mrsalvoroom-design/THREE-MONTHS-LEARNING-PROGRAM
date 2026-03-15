@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Program Speaking Partner - Salvo Group</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Montserrat:wght@300;400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        /* Navigation */
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #ffd700;
+            box-shadow: 0 5px 30px rgba(255, 215, 0, 0.2);
+        }
+        
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ffd700, #ffed4e);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .nav-links a:hover {
+            color: #ffed4e;
+            transform: translateY(-2px);
+        }
+        
+        /* Slide Container */
+        .slide-container {
+            margin-top: 80px;
+            padding: 40px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .slide {
+            display: none;
+            animation: fadeInUp 0.8s ease;
+            min-height: calc(100vh - 160px);
+        }
+        
+        .slide.active {
+            display: block;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: radial-gradient(ellipse at center, rgba(255,215,0,0.1) 0%, transparent 70%);
+        }
+        
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700, #b8860b);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s ease-in-out infinite;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        @keyframes shine {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-weight: 300;
+            letter-spacing: 3px;
+        }
+        
+        .hero .tagline {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            padding: 18px 50px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700);
+            color: #1a1a2e;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            box-shadow: 0 10px 40px rgba(255, 215, 0, 0.4);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 60px rgba(255, 215, 0, 0.6);
+        }
+        
+        /* Content Cards */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .gold-card {
+            background: linear-gradient(145deg, rgba(255,215,0,0.1), rgba(184,134,11,0.05));
+            border: 2px solid rgba(255,215,0,0.3);
+            border-radius: 20px;
+            padding: 35px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .gold-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .gold-card:hover::before {
+            opacity: 1;
+        }
+        
+        .gold-card:hover {
+            transform: translateY(-10px);
+            border-color: #ffd700;
+            box-shadow: 0 20px 60px rgba(255, 215, 0, 0.3);
+        }
+        
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .gold-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
+        
+        .gold-card p, .gold-card li {
+            color: #e0e0e0;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+        
+        .gold-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .gold-card li {
+            padding-left: 25px;
+            position: relative;
+            margin-bottom: 10px;
+        }
+        
+        .gold-card li::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: #ffd700;
+            font-weight: bold;
+        }
+        
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 40px 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #ffd700, #b8860b, #ffd700);
+            border-radius: 2px;
+        }
+        
+        .timeline-item {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 50%;
+            position: relative;
+            margin-bottom: 50px;
+        }
+        
+        .timeline-item:nth-child(even) {
+            justify-content: flex-start;
+            padding-right: 0;
+            padding-left: 50%;
+        }
+        
+        .timeline-content {
+            background: linear-gradient(145deg, rgba(255,215,0,0.15), rgba(26,26,46,0.8));
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            padding: 25px;
+            max-width: 400px;
+            position: relative;
+            margin: 0 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content::after {
+            content: '';
+            position: absolute;
+            right: -15px;
+            top: 30px;
+            width: 0;
+            height: 0;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-left: 15px solid #ffd700;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content::after {
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 30px;
+            width: 0;
+            height: 0;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-right: 15px solid #ffd700;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 30px;
+            background: #ffd700;
+            border-radius: 50%;
+            border: 5px solid #1a1a2e;
+            box-shadow: 0 0 20px rgba(255,215,0,0.6);
+            z-index: 10;
+        }
+        
+        .timeline-month {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: #ffd700;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        /* Exercise Section */
+        .exercise-box {
+            background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,237,78,0.05));
+            border: 3px dashed #ffd700;
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .exercise-box::before {
+            content: 'LATIHAN';
+            position: absolute;
+            top: -15px;
+            left: 30px;
+            background: #1a1a2e;
+            color: #ffd700;
+            padding: 5px 20px;
+            font-weight: 700;
+            border: 2px solid #ffd700;
+            border-radius: 20px;
+        }
+        
+        .exercise-item {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            border-left: 5px solid #ffd700;
+        }
+        
+        .exercise-item h4 {
+            color: #ffd700;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .timer {
+            display: inline-block;
+            background: #ffd700;
+            color: #1a1a2e;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        
+        /* Method Cards */
+        .method-card {
+            background: linear-gradient(145deg, #1a1a2e, #0f3460);
+            border: 2px solid transparent;
+            border-image: linear-gradient(45deg, #ffd700, #b8860b) 1;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .method-number {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 8rem;
+            color: rgba(255,215,0,0.1);
+            font-weight: 900;
+            font-family: 'Playfair Display', serif;
+            line-height: 1;
+        }
+        
+        .method-card h3 {
+            color: #ffd700;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .method-card p {
+            color: #ccc;
+            line-height: 1.8;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            background: rgba(255,255,255,0.1);
+            border-radius: 50px;
+            height: 30px;
+            margin: 20px 0;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ffed4e, #ffd700);
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 15px;
+            color: #1a1a2e;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: width 2s ease;
+            box-shadow: 0 0 20px rgba(255,215,0,0.5);
+        }
+        
+        /* Table Styles */
+        .gold-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .gold-table th {
+            background: linear-gradient(135deg, #ffd700, #b8860b);
+            color: #1a1a2e;
+            padding: 20px;
+            text-align: left;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .gold-table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid rgba(255,215,0,0.2);
+            color: #e0e0e0;
+        }
+        
+        .gold-table tr:hover {
+            background: rgba(255,215,0,0.05);
+        }
+        
+        /* Quote Box */
+        .quote-box {
+            background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(184,134,11,0.1));
+            border-left: 5px solid #ffd700;
+            padding: 30px;
+            margin: 30px 0;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: #ffd700;
+            border-radius: 0 15px 15px 0;
+            position: relative;
+        }
+        
+        .quote-box::before {
+            content: '"';
+            font-size: 4rem;
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            color: rgba(255,215,0,0.3);
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Navigation Buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            padding: 20px;
+        }
+        
+        .nav-btn {
+            padding: 15px 40px;
+            background: transparent;
+            border: 2px solid #ffd700;
+            color: #ffd700;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-btn:hover {
+            background: #ffd700;
+            color: #1a1a2e;
+            transform: translateX(5px);
+        }
+        
+        .nav-btn.prev:hover {
+            transform: translateX(-5px);
+        }
+        
+        .slide-counter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ffd700;
+            font-weight: 600;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,215,0,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dot.active {
+            background: #ffd700;
+            transform: scale(1.3);
+            box-shadow: 0 0 15px rgba(255,215,0,0.8);
+        }
+        
+        /* Section Title */
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: #ffd700;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #ffd700, transparent);
+        }
+        
+        .section-title p {
+            color: #aaa;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 20px auto 0;
+        }
+        
+        /* Tips Box */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .tip-card {
+            background: rgba(255,215,0,0.05);
+            border: 1px solid rgba(255,215,0,0.3);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .tip-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,215,0,0.1);
+            box-shadow: 0 10px 30px rgba(255,215,0,0.2);
+        }
+        
+        .tip-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ffd700, #b8860b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 1.5rem;
+            color: #1a1a2e;
+            font-weight: bold;
+        }
+        
+        .tip-card h4 {
+            color: #ffd700;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .tip-card p {
+            color: #ccc;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-item,
+            .timeline-item:nth-child(even) {
+                justify-content: flex-start;
+                padding-left: 80px;
+                padding-right: 0;
+            }
+            
+            .timeline-dot {
+                left: 30px;
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-content::after,
+            .timeline-item:nth-child(even) .timeline-content::after {
+                left: -15px;
+                right: auto;
+                border-right: 15px solid #ffd700;
+                border-left: none;
+            }
+        }
+        
+        /* Checklist */
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .checklist li {
+            padding: 15px 0 15px 40px;
+            position: relative;
+            border-bottom: 1px solid rgba(255,215,0,0.2);
+            font-size: 1.05rem;
+        }
+        
+        .checklist li::before {
+            content: '☐';
+            position: absolute;
+            left: 0;
+            color: #ffd700;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .checklist li.checked::before {
+            content: '☑';
+            color: #00ff88;
+        }
+        
+        /* Highlight Text */
+        .highlight {
+            background: linear-gradient(120deg, rgba(255,215,0,0.3) 0%, rgba(255,215,0,0.1) 100%);
+            padding: 2px 8px;
+            border-radius: 5px;
+            color: #ffd700;
+            font-weight: 600;
+        }
+        
+        /* Daily Schedule */
+        .schedule-item {
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.05);
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #ffd700;
+            transition: all 0.3s ease;
+        }
+        
+        .schedule-item:hover {
+            background: rgba(255,215,0,0.1);
+            transform: translateX(10px);
+        }
+        
+        .schedule-time {
+            background: #ffd700;
+            color: #1a1a2e;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 700;
+            margin-right: 20px;
+            min-width: 100px;
+            text-align: center;
+        }
+        
+        .schedule-content h4 {
+            color: #ffd700;
+            margin-bottom: 5px;
+        }
+        
+        .schedule-content p {
+            color: #aaa;
+            font-size: 0.95rem;
+        }
+        
+        /* Success Metrics */
+        .metric-card {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(145deg, rgba(255,215,0,0.1), transparent);
+            border-radius: 20px;
+            border: 2px solid rgba(255,215,0,0.3);
+        }
+        
+        .metric-number {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #ffd700;
+            font-family: 'Playfair Display', serif;
+            display: block;
+        }
+        
+        .metric-label {
+            color: #aaa;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="nav-menu">
+        <div class="logo">SALVO GROUP</div>
+        <ul class="nav-links">
+            <li><a href="#" onclick="goToSlide(0)">Beranda</a></li>
+            <li><a href="#" onclick="goToSlide(1)">Metode</a></li>
+            <li><a href="#" onclick="goToSlide(2)">Roadmap</a></li>
+            <li><a href="#" onclick="goToSlide(3)">Latihan</a></li>
+            <li><a href="#" onclick="goToSlide(4)">Jadwal</a></li>
+            <li><a href="#" onclick="goToSlide(5)">Tips</a></li>
+        </ul>
+    </nav>
+
+    <div class="slide-container">
+        
+        <!-- SLIDE 1: Cover -->
+        <div class="slide active" id="slide-0">
+            <div class="hero">
+                <div class="subtitle">PROGRAM EXCLUSIVE</div>
+                <h1>Speaking Partner<br>Salvo Group</h1>
+                <div class="tagline">"Get Your Fluency in Three Months"</div>
+                <p style="font-size: 1.2rem; color: #ccc; max-width: 700px; margin: 0 auto 40px; line-height: 1.8;">
+                    Panduan komprehensif untuk menguasai bahasa Inggris lisan dengan metode terbaik dan terstruktur. 
+                    Dari pemula hingga fluent dalam 90 hari dengan pendampingan intensif.
+                </p>
+                <button class="cta-button" onclick="nextSlide()">Mulai Perjalanan Anda →</button>
+            </div>
+            
+            <div class="content-grid" style="margin-top: 60px;">
+                <div class="gold-card">
+                    <span class="card-icon">🎯</span>
+                    <h3>Target Jelas</h3>
+                    <p>Fluency dalam 3 bulan dengan milestone terukur setiap minggu. Tidak ada tebak-tebakan, hanya hasil nyata.</p>
+                </div>
+                <div class="gold-card">
+                    <span class="card-icon">👥</span>
+                    <h3>Speaking Partner</h3>
+                    <p>Latihan bersama partner yang berkomitmen sama tingginya. Accountability partner untuk memastikan konsistensi.</p>
+                </div>
+                <div class="gold-card">
+                    <span class="card-icon">⚡</span>
+                    <h3>Metode Aktif</h3>
+                    <p>80% praktik speaking, 20% teori. Fokus pada penggunaan nyata, bukan hanya menghafal grammar.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: Metode SALVO -->
+        <div class="slide" id="slide-1">
+            <div class="section-title">
+                <h2>Metode SALVO</h2>
+                <p>5 Pilar Utama yang Terbukti Efektif untuk Fluency Cepat</p>
+            </div>
+
+            <div class="method-card">
+                <div class="method-number">S</div>
+                <h3>🗣️ SPEAK FIRST (Berbicara Dulu)</h3>
+                <p><strong>Prinsip:</strong> Jangan tunggu "siap perfect". Berbicaralah sejak hari pertama meski grammarnya berantakan. 
+                Fluency datang dari keberanian berbuat salah, bukan menunggu sempurna.<br><br>
+                <span class="highlight">Aksi:</span> Setiap hari, rekam diri Anda berbicara 5 menit tentang topik apa pun. 
+                Kirim ke partner. Fokus pada kelancaran, bukan kesempurnaan.</p>
+            </div>
+
+            <div class="method-card">
+                <div class="method-number">A</div>
+                <h3>🎧 ACTIVE LISTENING (Mendengar Aktif)</h3>
+                <p><strong>Prinsip:</strong> Imitasi adalah guru terbaik. Dengarkan native speaker, tiru intonasi, ritme, dan pilihan kata mereka.<br><br>
+                <span class="highlight">Aksi:</span> Tonton 1 video YouTube native speaker setiap hari. Pause dan tiru kalimat demi kalimat. 
+                Rekam perbandingan suara Anda dengan native.</p>
+            </div>
+
+            <div class="method-card">
+                <div class="method-number">L</div>
+                <h3>📚 LEXICAL CHUNKS (Belajar Frasa)</h3>
+                <p><strong>Prinsip:</strong> Jangan hafal kata per kata. Belajar "chunk" atau frasa lengkap yang sering digunakan bersama.<br><br>
+                <span class="highlight">Contoh:</span> Bukan hanya "make", tapi "make a decision", "make sense", "make sure". 
+                Ini membuat bicara lebih natural dan cepat.</p>
+            </div>
+
+            <div class="method-card">
+                <div class="method-number">V</div>
+                <h3>🔄 VARIETY PRACTICE (Latihan Beragam)</h3>
+                <p><strong>Prinsip:</strong> Latih English di berbagai situasi: formal, informal, presentasi, telepon, argumen, bercanda.<br><br>
+                <span class="highlight">Aksi:</span> Setiap minggu, simulasikan 1 situasi berbeda dengan partner. 
+                Minggu 1: Interview kerja. Minggu 2: Debat. Minggu 3: Curhat masalah.</p>
+            </div>
+
+            <div class="method-card">
+                <div class="method-number">O</div>
+                <h3>📊 OUTPUT TRACKING (Pantau Output)</h3>
+                <p><strong>Prinsip:</strong> Apa yang diukur, akan ditingkatkan. Catat setiap menit speaking, setiap kata baru, setiap kesalahan yang diperbaiki.<br><br>
+                <span class="highlight">Tools:</span> Gunakan spreadsheet sederhana atau app habit tracker. 
+                Target: Minimum 30 menit pure speaking setiap hari.</p>
+            </div>
+
+            <div class="quote-box">
+                "The only way to learn to speak is to speak and speak and speak. 
+                Perfectionism is the enemy of progress in language learning."
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Roadmap 3 Bulan -->
+        <div class="slide" id="slide-2">
+            <div class="section-title">
+                <h2>Roadmap 3 Bulan</h2>
+                <p>Perjalanan Terstruktir dari Zero to Hero</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-month">BULAN 1: FOUNDATION</div>
+                        <h4 style="color: #ffd700; margin-bottom: 10px;">🚀 Breaking the Ice</h4>
+                        <ul style="list-style: none; padding: 0; color: #ccc;">
+                            <li>✦ Daily self-introduction (5 varian)</li>
+                            <li>✦ 100 lexical chunks umum</li>
+                            <li>✦ Shadowing 10 menit/hari</li>
+                            <li>✦ Basic conversation patterns</li>
+                            <li>✦ Record 30 video diri sendiri</li>
+                        </ul>
+                        <div class="progress-container" style="margin-top: 15px;">
+                            <div class="progress-bar" style="width: 33%;">33%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-month">BULAN 2: ACCELERATION</div>
+                        <h4 style="color: #ffd700; margin-bottom: 10px;">⚡ Building Complexity</h4>
+                        <ul style="list-style: none; padding: 0; color: #ccc;">
+                            <li>✦ Storytelling & narrative</li>
+                            <li>✦ Opinion & argumentasi</li>
+                            <li>✦ 200+ chunks tambahan</li>
+                            <li>✦ Role-play beragam situasi</li>
+                            <li>✦ First long presentation (5 menit)</li>
+                        </ul>
+                        <div class="progress-container" style="margin-top: 15px;">
+                            <div class="progress-bar" style="width: 66%;">66%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-month">BULAN 3: MASTERY</div>
+                        <h4 style="color: #ffd700; margin-bottom: 10px;">👑 Fluent Expression</h4>
+                        <ul style="list-style: none; padding: 0; color: #ccc;">
+                            <li>✦ Complex discussions</li>
+                            <li>✦ Impromptu speaking</li>
+                            <li>✦ Idioms & slang naturals</li>
+                            <li>✦ Final assessment recording</li>
+                            <li>✦ Public speaking simulation</li>
+                        </ul>
+                        <div class="progress-container" style="margin-top: 15px;">
+                            <div class="progress-bar" style="width: 100%;">100%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-grid" style="margin-top: 50px;">
+                <div class="metric-card">
+                    <span class="metric-number">90</span>
+                    <span class="metric-label">Hari Intensif</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-number">45</span>
+                    <span class="metric-label">Jam Pure Speaking</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-number">500+</span>
+                    <span class="metric-label">Chunks Dikuasai</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-number">∞</span>
+                    <span class="metric-label">Confidence Gain</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: Latihan Praktis -->
+        <div class="slide" id="slide-3">
+            <div class="section-title">
+                <h2>Latihan Intensif</h2>
+                <p>Drill yang WAJIB Dilakukan Setiap Hari</p>
+            </div>
+
+            <div class="exercise-box">
+                <h3 style="color: #ffd700; margin-bottom: 20px; font-size: 1.5rem;">🔥 Latihan #1: Shadowing Mastery</h3>
+                <div class="exercise-item">
+                    <h4>Tujuan:</h4>
+                    <p>Melatih pronunciation, intonasi, dan kecepatan berpikir dalam bahasa Inggris.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Langkah-langkah:</h4>
+                    <p>1. Pilih video TED Talk atau podcast (3-5 menit)<br>
+                    2. Dengarkan 1 kalimat penuh<br>
+                    3. Pause, lalu tiru persis suara, nada, kecepatan<br>
+                    4. Rekam diri Anda, bandingkan dengan original<br>
+                    5. Ulangi sampai 90% mirip</p>
+                </div>
+                <div class="timer">⏱️ Durasi: 15 menit/hari</div>
+            </div>
+
+            <div class="exercise-box">
+                <h3 style="color: #ffd700; margin-bottom: 20px; font-size: 1.5rem;">🎭 Latihan #2: The Mirror Monologue</h3>
+                <div class="exercise-item">
+                    <h4>Tujuan:</h4>
+                    <p>Membangun kepercayaan diri dan kelancaran tanpa partner.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Protokol:</h4>
+                    <p>Setiap pagi, berdiri di depan cermin. Berbicara tentang:<br>
+                    • Rencana hari ini (2 menit)<br>
+                    • Pendapat tentang berita terkini (3 menit)<br>
+                    • Ceritakan kembali film yang ditonton (5 menit)<br>
+                    <strong>Rules:</strong> Tidak boleh berhenti, tidak boleh "ehh..", pakai gesture!</p>
+                </div>
+                <div class="timer">⏱️ Durasi: 10 menit/hari</div>
+            </div>
+
+            <div class="exercise-box">
+                <h3 style="color: #ffd700; margin-bottom: 20px; font-size: 1.5rem;">👥 Latihan #3: Partner Challenge</h3>
+                <div class="exercise-item">
+                    <h4>Tujuan:</h4>
+                    <p>Latihan interaksi nyata dengan accountability.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Format Sesi (30 menit):</h4>
+                    <p><strong>5 menit:</strong> Free talk (apa saja)<br>
+                    <strong>10 menit:</strong> Topic discussion (tema mingguan)<br>
+                    <strong>10 menit:</strong> Role-play scenario<br>
+                    <strong>5 menit:</strong> Feedback & correction</p>
+                </div>
+                <div class="timer">⏱️ Frekuensi: 5x seminggu</div>
+            </div>
+
+            <div class="exercise-box">
+                <h3 style="color: #ffd700; margin-bottom: 20px; font-size: 1.5rem;">🧠 Latihan #4: Think in English</h3>
+                <div class="exercise-item">
+                    <h4>Tujuan:</h4>
+                    <p>Mengubah mode berpikir dari bahasa Indonesia ke Inggris.</p>
+                </div>
+                <div class="exercise-item">
+                    <h4>Challenge Harian:</h4>
+                    <p>• Deskripsikan apa yang Anda lihat dalam bahasa Inggris (di jalan, di kantor)<br>
+                    • Terjemahkan pikiran spontan Anda ke Inggris<br>
+                    • Bermimpi dalam bahasa Inggris (advanced level)</p>
+                </div>
+                <div class="timer">⏱️ Durasi: Seharian (mental switch)</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: Jadwal Harian -->
+        <div class="slide" id="slide-4">
+            <div class="section-title">
+                <h2>Jadwal Harian Optimal</h2>
+                <p>Struktur Hari untuk Maksimal Progress</p>
+            </div>
+
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div class="schedule-item">
+                    <div class="schedule-time">06:30</div>
+                    <div class="schedule-content">
+                        <h4>🌅 Morning Monologue</h4>
+                        <p>10 menit di depan cermin. Review mimpi semalam, rencana hari ini, atau gratitude list dalam bahasa Inggris.</p>
+                    </div>
+                </div>
+
+                <div class="schedule-item">
+                    <div class="schedule-time">07:00</div>
+                    <div class="schedule-content">
+                        <h4>🎧 Commute Listening</h4>
+                        <p>Dengarkan podcast English (BBC Learning English, All Ears English) selama perjalanan. Fokus pada chunks baru.</p>
+                    </div>
+                </div>
+
+                <div class="schedule-item">
+                    <div class="schedule-time">12:30</div>
+                    <div class="schedule-content">
+                        <h4>📱 Micro Learning</h4>
+                        <p>Selama istirahat makan siang, buka app vocabulary. Pelajari 5 chunks baru. Buat kalimat dengan masing-masing.</p>
+                    </div>
+                </div>
+
+                <div class="schedule-item">
+                    <div class="schedule-time">18:00</div>
+                    <div class="schedule-content">
+                        <h4>🎬 Shadowing Session</h4>
+                        <p>15 menit shadowing video. Rekam progress. Catat 3 frasa yang sulit, ulangi sampai lancar.</p>
+                    </div>
+                </div>
+
+                <div class="schedule-item">
+                    <div class="schedule-time">19:30</div>
+                    <div class="schedule-content">
+                        <h4>👥 Speaking Partner Time</h4>
+                        <p>Sesi 30 menit dengan partner. Alternate antara free talk dan structured practice. Beri feedback spesifik.</p>
+                    </div>
+                </div>
+
+                <div class="schedule-item">
+                    <div class="schedule-time">21:00</div>
+                    <div class="schedule-content">
+                        <h4>📝 Daily Journal</h4>
+                        <p>Tulis 3 paragraf: apa yang dipelajari hari ini, kesalahan yang dibuat & perbaikannya, target besok.</p>
+                    </div>
+                </div>
+
+                <div class="schedule-item">
+                    <div class="schedule-time">22:00</div>
+                    <div class="schedule-content">
+                        <h4>🌙 Night Reflection</h4>
+                        <p>5 menit berpikir dalam bahasa Inggris sebelum tidur. Ucapkan "Today I spoke English for X minutes. Good job!"</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gold-card" style="margin-top: 40px; text-align: center;">
+                <h3 style="color: #ffd700; margin-bottom: 15px;">📊 Weekly Review</h3>
+                <p>Setiap Minggu malam, evaluasi:<br>
+                Total jam speaking minggu ini | Chunks baru yang dikuasai | Video yang dishadow | 
+                Confidence level (1-10) | Area yang perlu ditingkatkan</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Tips & Resources -->
+        <div class="slide" id="slide-5">
+            <div class="section-title">
+                <h2>Success Tips & Resources</h2>
+                <p>Maximalkan Potensi Anda dengan Strategi Ini</p>
+            </div>
+
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-icon">🎯</div>
+                    <h4>Set Micro Goals</h4>
+                    <p>Jangan target "fluent". Target "bisa presentasi 2 menit tanpa henti" atau "menggunakan 10 chunks baru hari ini".</p>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">🤝</div>
+                    <h4>Commitment Contract</h4>
+                    <p>Buat perjanjian dengan partner: Jika skip latihan 3 hari berturut-turut, ada konsekuensi (traktir makan, dll).</p>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">📹</div>
+                    <h4>Record Everything</h4>
+                    <p>Video bulan pertama vs bulan ketiga akan menunjukkan progress luar biasa. Gunakan sebagai motivasi.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">🌍</div>
+                    <h4>Immerse Completely</h4>
+                    <p>Ubah phone language ke English. Follow akun English di sosmed. Nyanyikan lagu English. Think English!</p>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">🎉</div>
+                    <h4>Celebrate Small Wins</h4>
+                    <p>Selesai 30 hari? Reward yourself! Setiap milestone adalah pencapaian yang layak dirayakan.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">🔄</div>
+                    <h4>Embrace Mistakes</h4>
+                    <p>Setiap kesalahan adalah data untuk perbaikan. Jangan malu, catat, perbaiki, lalu lanjutkan.</p>
+                </div>
+            </div>
+
+            <div class="gold-card" style="margin-top: 40px;">
+                <h3 style="color: #ffd700; margin-bottom: 20px;">📚 Recommended Resources</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div>
+                        <h4 style="color: #ffed4e; margin-bottom: 10px;">YouTube Channels:</h4>
+                        <ul style="color: #ccc; line-height: 2;">
+                            <li>• English with Lucy</li>
+                            <li>• BBC Learning English</li>
+                            <li>• Rachel's English (Pronunciation)</li>
+                            <li>• TED-Ed</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: #ffed4e; margin-bottom: 10px;">Podcasts:</h4>
+                        <ul style="color: #ccc; line-height: 2;">
+                            <li>• All Ears English</li>
+                            <li>• 6 Minute English (BBC)</li>
+                            <li>• The English We Speak</li>
+                            <li>• Luke's English Podcast</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 style="color: #ffed4e; margin-bottom: 10px;">Apps:</h4>
+                        <ul style="color: #ccc; line-height: 2;">
+                            <li>• Elsa Speak (Pronunciation)</li>
+                            <li>• HelloTalk (Find partners)</li>
+                            <li>• Anki (Vocabulary)</li>
+                            <li>• Tandem</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quote-box" style="margin-top: 40px;">
+                "Fluency is not about knowing all the words. It's about being comfortable with uncertainty, 
+                embracing imperfection, and having the courage to communicate anyway."
+            </div>
+
+            <div style="text-align: center; margin-top: 50px; padding: 40px; background: linear-gradient(145deg, rgba(255,215,0,0.1), transparent); border-radius: 20px; border: 2px solid #ffd700;">
+                <h2 style="color: #ffd700; font-family: 'Playfair Display', serif; margin-bottom: 20px;">🚀 Mulai Hari Ini!</h2>
+                <p style="color: #ccc; font-size: 1.2rem; margin-bottom: 30px;">
+                    3 bulan dari sekarang, Anda akan berterima kasih pada diri Anda yang memulai hari ini.<br>
+                    Ingat: <strong>The best time to start was yesterday. The second best time is NOW.</strong>
+                </p>
+                <button class="cta-button" onclick="goToSlide(0)">Kembali ke Menu Utama</button>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="nav-buttons">
+            <button class="nav-btn prev" onclick="prevSlide()">← Sebelumnya</button>
+            <div class="slide-counter">
+                <span class="dot active" onclick="goToSlide(0)"></span>
+                <span class="dot" onclick="goToSlide(1)"></span>
+                <span class="dot" onclick="goToSlide(2)"></span>
+                <span class="dot" onclick="goToSlide(3)"></span>
+                <span class="dot" onclick="goToSlide(4)"></span>
+                <span class="dot" onclick="goToSlide(5)"></span>
+            </div>
+            <button class="nav-btn" onclick="nextSlide()">Selanjutnya →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 6;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.dot');
+            
+            if (n >= totalSlides) currentSlide = 0;
+            if (n < 0) currentSlide = totalSlides - 1;
+            
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function nextSlide() {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+
+        function goToSlide(n) {
+            currentSlide = n;
+            showSlide(currentSlide);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        // Progress bar animation on load
+        window.addEventListener('load', () => {
+            const progressBars = document.querySelectorAll('.progress-bar');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 500);
+            });
+        });
+    </script>
+</body>
+</html>
